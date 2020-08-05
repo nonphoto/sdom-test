@@ -6,11 +6,16 @@ const t = S.data(0),
 
 const background = S(() => `rgb(${(t() * 0.01) % 255}, 100, 100)`);
 
+const counter = () => {
+  const count = S.value(0);
+  return h("button", { onclick: (e) => count(count() + 1) }, count);
+};
+
 const main = h(
   "ul",
   { style: { background } },
-  h("li", { "data-hidden": S(() => (t() * 0.001) % 2 === 0) }, "hello"),
-  h("li", {}, "world")
+  h("li", { hidden: S(() => Math.floor(t() * 0.001) % 2 === 0) }, "hello"),
+  h("li", {}, counter())
 );
 
 document.body.appendChild(render(main));
