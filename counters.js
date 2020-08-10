@@ -1,5 +1,5 @@
 import S from "./lib/flyd.js";
-import { createElement } from "./lib/sdom.js";
+import { createElement, serialize } from "./lib/sdom.js";
 
 const M = {
   pop: () => ({ type: "pop" }),
@@ -48,3 +48,5 @@ const main = () => {
 
 document.body.appendChild(createElement(main()));
 loop();
+
+console.log(serialize(main()));
