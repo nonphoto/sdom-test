@@ -1,14 +1,6 @@
 import S from "./lib/flyd.js";
 import { createElement, serialize } from "./lib/sdom.js";
 
-const M = {
-  pop: () => ({ type: "pop" }),
-  push: (component) => (...args) => ({
-    type: "push",
-    value: component(...args),
-  }),
-};
-
 const time = S.stream(0);
 const loop = (t) => {
   time(t);
@@ -33,16 +25,12 @@ const counter = () => {
 const main = () => {
   const moreClick = S.stream();
   const lessClick = S.stream();
-  const counters = S.merge(
-    S.map(M.pop, lessClick),
-    S.map(M.push(counter), moreClick)
-  );
   return [
     "div",
     { style: { background } },
     ["button", { onclick: lessClick }, "less"],
     ["button", { onclick: moreClick }, "more"],
-    ["div", { mutator: counters }],
+    ["div", { push: S.map(counter, moreClick), pop: lessClick }],
   ];
 };
 
